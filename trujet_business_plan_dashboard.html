@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TruJet — Fleet Order &amp; Financial Plan FY26–FY41</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A0F1A;
+    --panel:#111827;
+    --panel-alt:#151E30;
+    --line:#232C42;
+    --line-soft:#1A2236;
+    --text:#E7ECF5;
+    --text-dim:#8592AC;
+    --text-faint:#57647F;
+    --cyan:#4FD6E8;
+    --cyan-dim:#1E4A55;
+    --amber:#F4A93B;
+    --amber-dim:#4A3617;
+    --green:#5BE0A6;
+    --green-dim:#164534;
+    --red:#FF7A72;
+    --red-dim:#4A1F1D;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 600px at 15% -10%, rgba(79,214,232,0.06), transparent 60%),
+      radial-gradient(1000px 500px at 100% 0%, rgba(244,169,59,0.05), transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:'IBM Plex Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  .display{font-family:'Space Grotesk', sans-serif;}
+
+  a{color:inherit;}
+  ::selection{background:var(--cyan); color:#06121a;}
+
+  /* ---------- Top strip ---------- */
+  .topstrip{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 32px;
+    background:rgba(10,15,26,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand-mark{
+    width:30px; height:30px; border:1px solid var(--cyan); border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+  }
+  .brand-mark::before{
+    content:"";
+    width:14px; height:2px; background:var(--cyan);
+    position:absolute; transform:rotate(45deg);
+  }
+  .brand-mark::after{
+    content:"";
+    width:2px; height:14px; background:var(--cyan);
+    position:absolute; transform:rotate(45deg);
+  }
+  .brand-text{font-family:'Space Grotesk'; font-weight:600; letter-spacing:0.06em; font-size:14px;}
+  .brand-text span{color:var(--text-dim); font-weight:400;}
+  .topstrip nav{display:flex; gap:26px; font-size:12.5px; color:var(--text-dim); letter-spacing:0.03em;}
+  .topstrip nav a{text-decoration:none; transition:color .2s;}
+  .topstrip nav a:hover{color:var(--cyan);}
+
+  section{padding:64px 32px; max-width:1180px; margin:0 auto;}
+  .eyebrow{
+    font-family:'IBM Plex Mono'; font-size:11px; letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--cyan); display:flex; align-items:center; gap:10px; margin-bottom:14px;
+  }
+  .eyebrow::before{content:""; width:22px; height:1px; background:var(--cyan); opacity:.6;}
+
+  /* ---------- Hero ---------- */
+  .hero{padding-top:76px; padding-bottom:40px;}
+  .hero-grid{display:grid; grid-template-columns:1.35fr 1fr; gap:50px; align-items:end;}
+  h1.headline{
+    font-family:'Space Grotesk'; font-weight:700; font-size:clamp(34px, 4.6vw, 58px);
+    line-height:1.03; letter-spacing:-0.01em; margin:0 0 20px;
+  }
+  h1.headline .accent{color:var(--cyan);}
+  .hero-sub{color:var(--text-dim); font-size:16px; line-height:1.6; max-width:46ch; margin:0;}
+  .hero-tag{
+    display:inline-flex; align-items:center; gap:8px; margin-top:26px;
+    font-family:'IBM Plex Mono'; font-size:12px; color:var(--text-faint);
+    border-top:1px solid var(--line); padding-top:16px; max-width:46ch;
+  }
+
+  .hero-panel{
+    background:var(--panel); border:1px solid var(--line); border-radius:14px;
+    padding:26px 26px 20px;
+  }
+  .hero-panel-title{font-family:'IBM Plex Mono'; font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-faint); margin-bottom:18px;}
+  .kpi-row{display:flex; flex-direction:column; gap:18px;}
+  .kpi{display:flex; justify-content:space-between; align-items:baseline; border-bottom:1px dashed var(--line); padding-bottom:14px;}
+  .kpi:last-child{border-bottom:none; padding-bottom:0;}
+  .kpi-label{font-size:12.5px; color:var(--text-dim);}
+  .kpi-value{font-family:'Space Grotesk'; font-weight:600; font-size:24px;}
+  .kpi-value small{font-family:'IBM Plex Mono'; font-size:12px; color:var(--text-faint); font-weight:400; margin-left:4px;}
+  .c-cyan{color:var(--cyan);}
+  .c-amber{color:var(--amber);}
+  .c-green{color:var(--green);}
+
+  /* ---------- Section header ---------- */
+  .sec-head{display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:28px; gap:24px; flex-wrap:wrap;}
+  .sec-title{font-family:'Space Grotesk'; font-weight:600; font-size:28px; margin:0;}
+  .sec-desc{color:var(--text-dim); font-size:13.5px; max-width:38ch; text-align:right; line-height:1.55;}
+
+  /* ---------- Panels ---------- */
+  .panel{
+    background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:28px;
+  }
+  .panel + .panel{margin-top:20px;}
+
+  /* ---------- Fleet chart ---------- */
+  .chart-wrap{position:relative;}
+  .legend{display:flex; gap:22px; margin-bottom:18px; flex-wrap:wrap;}
+  .legend-item{display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--text-dim); font-family:'IBM Plex Mono';}
+  .legend-swatch{width:10px; height:10px; border-radius:2px;}
+  svg text{font-family:'IBM Plex Mono';}
+  .axis-label{fill:var(--text-faint); font-size:10.5px;}
+  .gridline{stroke:var(--line-soft); stroke-width:1;}
+  .callout-line{stroke:var(--text-faint); stroke-width:1; stroke-dasharray:2 3;}
+  .callout-text{fill:var(--text-dim); font-size:10.5px;}
+
+  /* ---------- Assumptions grid ---------- */
+  .flightdeck{
+    display:grid; grid-template-columns:repeat(4, 1fr); gap:1px;
+    background:var(--line); border:1px solid var(--line); border-radius:14px; overflow:hidden;
+  }
+  .fd-card{background:var(--panel); padding:22px 20px; min-height:128px; display:flex; flex-direction:column; justify-content:space-between;}
+  .fd-num{font-family:'IBM Plex Mono'; font-size:10px; color:var(--text-faint); letter-spacing:0.08em;}
+  .fd-label{font-size:12.5px; color:var(--text-dim); margin-top:8px;}
+  .fd-value{font-family:'Space Grotesk'; font-weight:600; font-size:22px; margin-top:10px;}
+  .fd-value small{font-family:'IBM Plex Mono'; font-size:11px; color:var(--text-faint); font-weight:400;}
+
+  /* ---------- Financial trajectory stat row ---------- */
+  .stat-strip{display:grid; grid-template-columns:repeat(4,1fr); gap:20px; margin-top:20px;}
+  .stat-card{border:1px solid var(--line); border-radius:12px; padding:18px 18px 16px; background:var(--panel-alt);}
+  .stat-card .lbl{font-size:11.5px; color:var(--text-dim); margin-bottom:8px;}
+  .stat-card .val{font-family:'Space Grotesk'; font-weight:600; font-size:20px;}
+  .stat-card .sub{font-family:'IBM Plex Mono'; font-size:10.5px; color:var(--text-faint); margin-top:6px;}
+
+  /* ---------- Table ---------- */
+  table.data{width:100%; border-collapse:collapse; font-size:12.5px;}
+  table.data th{
+    text-align:right; font-family:'IBM Plex Mono'; font-weight:400; color:var(--text-faint);
+    font-size:10.5px; text-transform:uppercase; letter-spacing:0.05em; padding:8px 10px; border-bottom:1px solid var(--line);
+  }
+  table.data th:first-child{text-align:left;}
+  table.data td{text-align:right; padding:9px 10px; font-family:'IBM Plex Mono'; border-bottom:1px solid var(--line-soft); color:var(--text);}
+  table.data td:first-child{text-align:left; font-family:'IBM Plex Sans'; color:var(--text-dim);}
+  table.data tr:hover td{background:rgba(255,255,255,0.02);}
+  .neg{color:var(--red);}
+  .pos{color:var(--green);}
+  .scrollx{overflow-x:auto; -webkit-overflow-scrolling:touch;}
+
+  /* ---------- Footer ---------- */
+  footer{
+    border-top:1px solid var(--line-soft); padding:40px 32px 60px; max-width:1180px; margin:0 auto;
+    display:flex; justify-content:space-between; align-items:flex-start; gap:24px; flex-wrap:wrap;
+  }
+  footer .note{font-size:12px; color:var(--text-faint); max-width:60ch; line-height:1.6;}
+  footer .note b{color:var(--text-dim);}
+
+  @media (max-width:900px){
+    .hero-grid{grid-template-columns:1fr;}
+    .flightdeck{grid-template-columns:repeat(2,1fr);}
+    .stat-strip{grid-template-columns:repeat(2,1fr);}
+    .sec-desc{text-align:left;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+
+  .fadein{opacity:0; transform:translateY(10px); transition:opacity .6s ease, transform .6s ease;}
+  .fadein.in{opacity:1; transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<div class="topstrip">
+  <div class="brand">
+    <div class="brand-mark"></div>
+    <div class="brand-text">TRUJET <span>/ Fleet Order Plan</span></div>
+  </div>
+  <nav>
+    <a href="#fleet">Fleet Build-up</a>
+    <a href="#financials">Financials</a>
+    <a href="#deck">Operating Assumptions</a>
+    <a href="#balance">Balance Sheet</a>
+  </nav>
+</div>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="eyebrow">Business Plan · FY2026–FY2041</div>
+      <h1 class="headline">100 aircraft on order.<br>One <span class="accent">15-year</span> flight plan.</h1>
+      <p class="hero-sub">A 50 A320neo / 50 A320ceo fleet build, bridging near-term ceo leases into a long-haul neo fleet, modelled route-by-route from first induction through steady-state cruise.</p>
+      <div class="hero-tag">FIRST CEO INDUCTION · JUL 2026 &nbsp;→&nbsp; FIRST NEO INDUCTION · AUG 2030 &nbsp;→&nbsp; FLEET AT STEADY STATE · FY2036</div>
+    </div>
+    <div class="hero-panel">
+      <div class="hero-panel-title">Flight computer readout</div>
+      <div class="kpi-row">
+        <div class="kpi">
+          <div class="kpi-label">Peak fleet in operation</div>
+          <div class="kpi-value c-cyan">50 <small>aircraft, FY36 onward</small></div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">FY41 revenue</div>
+          <div class="kpi-value">₹301.8Bn <small>≈ $2.52Bn</small></div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Revenue CAGR, FY27–FY41</div>
+          <div class="kpi-value c-green">27.2% <small>14-yr compounding</small></div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-label">Peak EBITDA margin</div>
+          <div class="kpi-value c-amber">12.4% <small>FY30</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FLEET BUILD-UP ===================== -->
+<section id="fleet">
+  <div class="sec-head fadein">
+    <h2 class="sec-title">Fleet build-up</h2>
+    <p class="sec-desc">ceo leases carry early growth from FY27, phased out by FY36 as the owned neo fleet ramps to a steady 50-aircraft operation.</p>
+  </div>
+  <div class="panel fadein">
+    <div class="legend">
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--amber)"></span>A320ceo — bridge fleet</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--cyan)"></span>A320neo — core fleet</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--text-faint); border-radius:50%; width:6px; height:6px; margin:2px;"></span>Total in operation</div>
+    </div>
+    <div class="chart-wrap">
+      <svg id="fleetChart" width="100%" viewBox="0 0 1080 380" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FINANCIALS ===================== -->
+<section id="financials">
+  <div class="sec-head fadein">
+    <h2 class="sec-title">Financial trajectory</h2>
+    <p class="sec-desc">Revenue scales with the fleet; EBITDA margin compresses after FY30 as ceo lease and maintenance costs escalate faster than the yield curve.</p>
+  </div>
+  <div class="panel fadein">
+    <div class="legend">
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--cyan)"></span>Total revenue</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--amber)"></span>EBITDA</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--green)"></span>PAT</div>
+    </div>
+    <div class="chart-wrap">
+      <svg id="finChart" width="100%" viewBox="0 0 1080 380" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+    <div class="stat-strip">
+      <div class="stat-card">
+        <div class="lbl">FY26 pre-op loss</div>
+        <div class="val neg">-₹607.5Mn</div>
+        <div class="sub">PAT, launch year</div>
+      </div>
+      <div class="stat-card">
+        <div class="lbl">First profitable year</div>
+        <div class="val pos">FY27</div>
+        <div class="sub">PAT ₹587.4Mn</div>
+      </div>
+      <div class="stat-card">
+        <div class="lbl">Peak PAT</div>
+        <div class="val pos">₹18.0Bn</div>
+        <div class="sub">FY32 · 9.4% margin</div>
+      </div>
+      <div class="stat-card">
+        <div class="lbl">FY41 EBITDA margin</div>
+        <div class="val c-amber">4.6%</div>
+        <div class="sub">down from 12.4% peak</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== OPERATING ASSUMPTIONS ===================== -->
+<section id="deck">
+  <div class="sec-head fadein">
+    <h2 class="sec-title">Flight deck — operating assumptions</h2>
+    <p class="sec-desc">The dials driving the model: unit economics per aircraft, escalated year over year.</p>
+  </div>
+  <div class="flightdeck fadein">
+    <div class="fd-card">
+      <div class="fd-num">01 · CAPACITY</div>
+      <div>
+        <div class="fd-label">Seats per aircraft</div>
+        <div class="fd-value">186 <small>neo &amp; ceo alike</small></div>
+      </div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-num">02 · UTILISATION</div>
+      <div>
+        <div class="fd-label">Block hours / aircraft / day</div>
+        <div class="fd-value">14.0 <small>7 flights/day</small></div>
+      </div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-num">03 · NETWORK</div>
+      <div>
+        <div class="fd-label">Average stage length</div>
+        <div class="fd-value">1,200 <small>km</small></div>
+      </div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-num">04 · LOAD</div>
+      <div>
+        <div class="fd-label">Load factor ramp</div>
+        <div class="fd-value">70→85% <small>FY26 to FY28+</small></div>
+      </div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-num">05 · YIELD</div>
+      <div>
+        <div class="fd-label">Base yield, escalating 5%/yr</div>
+        <div class="fd-value">₹6,800 <small>per pax, FY26–27</small></div>
+      </div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-num">06 · FUEL</div>
+      <div>
+        <div class="fd-label">ATF price, +3%/yr escalation</div>
+        <div class="fd-value">$0.80 <small>/litre, net of discount</small></div>
+      </div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-num">07 · FX</div>
+      <div>
+        <div class="fd-label">INR/USD, depreciating 2%/yr</div>
+        <div class="fd-value">₹89.0 <small>→ ₹119.8 by FY41</small></div>
+      </div>
+    </div>
+    <div class="fd-card">
+      <div class="fd-num">08 · LEASES</div>
+      <div>
+        <div class="fd-label">Monthly rentals, ceo / neo</div>
+        <div class="fd-value">$250k <small>/ $350k per aircraft</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== BALANCE SHEET ===================== -->
+<section id="balance">
+  <div class="sec-head fadein">
+    <h2 class="sec-title">Cash position &amp; balance sheet</h2>
+    <p class="sec-desc">Closing cash by fiscal year-end (INR Mn), before the FY38 customer-advance unwind flagged in the source model.</p>
+  </div>
+  <div class="panel fadein">
+    <div class="chart-wrap">
+      <svg id="cashChart" width="100%" viewBox="0 0 1080 260" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+  </div>
+  <div class="panel fadein scrollx" style="margin-top:20px;">
+    <table class="data" id="dataTable">
+      <thead>
+        <tr>
+          <th>Fiscal Year (Mar-end)</th>
+          <th>Fleet — neo</th>
+          <th>Fleet — ceo</th>
+          <th>Total fleet</th>
+          <th>Revenue (₹Mn)</th>
+          <th>EBITDA (₹Mn)</th>
+          <th>PAT (₹Mn)</th>
+          <th>Closing cash (₹Mn)</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  <div class="brand">
+    <div class="brand-mark"></div>
+    <div class="brand-text">TRUJET <span>/ Fleet Order Plan</span></div>
+  </div>
+  <p class="note">
+    <b>Source:</b> Trujet_Business_Plan_v3 (Aircraft Order), sheets Assumptions, Fleet Plan, and Financial Statements (INR Mn). Figures are model outputs, not audited results. A parallel USD statement in the source file contains unresolved <span class="mono">#REF!</span> cells beyond FY32 and was not used for figures above. Fiscal year ends 31 March.
+  </p>
+</footer>
+
+<script>
+// ---------------- Data (from Trujet_Business_Plan_v3, INR Mn unless noted) ----------------
+const years = ['FY26','FY27','FY28','FY29','FY30','FY31','FY32','FY33','FY34','FY35','FY36','FY37','FY38','FY39','FY40','FY41'];
+
+const neo   = [0,0,0,0,0,8,18,28,38,48,50,50,50,50,50,50];
+const ceo   = [0,9,19,29,39,40,31,21,11,1,0,0,0,0,0,0];
+const total = neo.map((n,i)=>n+ceo[i]);
+
+const revenue = [0, 10426.28, 43455.05, 78896.83, 118579.47, 158478.10, 191198.93, 200210.36, 210220.87, 220731.92, 236757.66, 248323.41, 260739.58, 273776.56, 288252.96, 301838.66];
+const ebitda  = [-600, 701.07, 4820.52, 9248.83, 14649.37, 18746.35, 21218.02, 19205.88, 17068.39, 14660.66, 13557.73, 13757.14, 13975.12, 14095.19, 14238.05, 13978.83];
+const pat     = [-607.5, 587.41, 4086.81, 7848.75, 12437.09, 15917.40, 18016.19, 16303.74, 14484.75, 12436.06, 11496.44, 11663.82, 11846.98, 11946.91, 12066.21, 11843.76];
+const cash    = [29410.35, 32230.30, 43851.92, 59652.51, 80821.66, 105710.88, 130144.54, 148357.48, 164960.88, 179629.62, 194443.42, 208497.41, 168574.06, 180466.80, 192477.01, 204269.19];
+
+// ---------------- Small SVG chart helpers ----------------
+const NS = 'http://www.w3.org/2000/svg';
+function el(tag, attrs){
+  const e = document.createElementNS(NS, tag);
+  for(const k in attrs) e.setAttribute(k, attrs[k]);
+  return e;
+}
+function fmt(n){
+  const sign = n<0 ? '-' : '';
+  n = Math.abs(n);
+  if(n>=1000) return sign + (n/1000).toFixed(1)+'k';
+  return sign + Math.round(n);
+}
+
+// ---- Fleet chart: stacked bars (ceo + neo) with total line ----
+(function(){
+  const svg = document.getElementById('fleetChart');
+  const W=1080, H=380, padL=44, padR=20, padT=20, padB=36;
+  const plotW = W-padL-padR, plotH = H-padT-padB;
+  const n = years.length;
+  const bw = plotW/n * 0.56;
+  const maxY = 55;
+
+  // gridlines
+  [0,10,20,30,40,50].forEach(v=>{
+    const y = padT + plotH - (v/maxY)*plotH;
+    svg.appendChild(el('line',{x1:padL,x2:W-padR,y1:y,y2:y,class:'gridline'}));
+    const t = el('text',{x:padL-8,y:y+3,class:'axis-label','text-anchor':'end'});
+    t.textContent = v;
+    svg.appendChild(t);
+  });
+
+  years.forEach((yr,i)=>{
+    const cx = padL + (plotW/n)*(i+0.5);
+    const x = cx - bw/2;
+    const ceoH = (ceo[i]/maxY)*plotH;
+    const neoH = (neo[i]/maxY)*plotH;
+    const yBase = padT+plotH;
+    if(ceoH>0.2) svg.appendChild(el('rect',{x:x,y:yBase-ceoH,width:bw,height:ceoH,fill:'var(--amber)',opacity:0.9,rx:2}));
+    if(neoH>0.2) svg.appendChild(el('rect',{x:x,y:yBase-ceoH-neoH,width:bw,height:neoH,fill:'var(--cyan)',opacity:0.92,rx:2}));
+    const lab = el('text',{x:cx,y:H-10,class:'axis-label','text-anchor':'middle'});
+    lab.textContent = yr;
+    svg.appendChild(lab);
+  });
+
+  // total line + dots
+  let pathD = '';
+  years.forEach((yr,i)=>{
+    const cx = padL + (plotW/n)*(i+0.5);
+    const cy = padT + plotH - (total[i]/maxY)*plotH;
+    pathD += (i===0?'M':'L') + cx + ' ' + cy + ' ';
+  });
+  svg.appendChild(el('path',{d:pathD, fill:'none', stroke:'var(--text-dim)', 'stroke-width':1.4, 'stroke-dasharray':'2 3'}));
+  years.forEach((yr,i)=>{
+    const cx = padL + (plotW/n)*(i+0.5);
+    const cy = padT + plotH - (total[i]/maxY)*plotH;
+    svg.appendChild(el('circle',{cx:cx,cy:cy,r:2.6,fill:'#0A0F1A',stroke:'var(--text-dim)','stroke-width':1.2}));
+  });
+
+  // callout: first ceo induction
+  const cx0 = padL + (plotW/n)*(1+0.5);
+  svg.appendChild(el('line',{x1:cx0,x2:cx0,y1:padT,y2:padT+plotH,class:'callout-line'}));
+  const t0 = el('text',{x:cx0+6,y:padT+12,class:'callout-text'}); t0.textContent='first ceo · Jul 2026'; svg.appendChild(t0);
+
+  const cx1 = padL + (plotW/n)*(5+0.5);
+  svg.appendChild(el('line',{x1:cx1,x2:cx1,y1:padT,y2:padT+plotH,class:'callout-line'}));
+  const t1 = el('text',{x:cx1+6,y:padT+28,class:'callout-text'}); t1.textContent='first neo · Aug 2030'; svg.appendChild(t1);
+})();
+
+// ---- Financial trajectory: revenue / ebitda / pat lines ----
+(function(){
+  const svg = document.getElementById('finChart');
+  const W=1080, H=380, padL=54, padR=20, padT=20, padB=36;
+  const plotW = W-padL-padR, plotH = H-padT-padB;
+  const n = years.length;
+  const maxY = 320000, minY = -10000;
+  const range = maxY-minY;
+
+  [-0, 50000,100000,150000,200000,250000,300000].forEach(v=>{
+    const y = padT + plotH - ((v-minY)/range)*plotH;
+    svg.appendChild(el('line',{x1:padL,x2:W-padR,y1:y,y2:y,class:'gridline'}));
+    const t = el('text',{x:padL-8,y:y+3,class:'axis-label','text-anchor':'end'});
+    t.textContent = fmt(v);
+    svg.appendChild(t);
+  });
+  // zero line emphasis
+  const zy = padT + plotH - ((0-minY)/range)*plotH;
+  svg.appendChild(el('line',{x1:padL,x2:W-padR,y1:zy,y2:zy,stroke:'var(--text-faint)','stroke-width':1}));
+
+  years.forEach((yr,i)=>{
+    const cx = padL + (plotW/n)*(i+0.5);
+    const lab = el('text',{x:cx,y:H-10,class:'axis-label','text-anchor':'middle'});
+    lab.textContent = yr;
+    svg.appendChild(lab);
+  });
+
+  function drawLine(data, color, width){
+    let d='';
+    data.forEach((v,i)=>{
+      const cx = padL + (plotW/n)*(i+0.5);
+      const cy = padT + plotH - ((v-minY)/range)*plotH;
+      d += (i===0?'M':'L') + cx + ' ' + cy + ' ';
+    });
+    svg.appendChild(el('path',{d:d, fill:'none', stroke:color, 'stroke-width':width, 'stroke-linejoin':'round'}));
+    data.forEach((v,i)=>{
+      const cx = padL + (plotW/n)*(i+0.5);
+      const cy = padT + plotH - ((v-minY)/range)*plotH;
+      svg.appendChild(el('circle',{cx:cx,cy:cy,r:2.4,fill:color}));
+    });
+  }
+  drawLine(revenue, 'var(--cyan)', 2.2);
+  drawLine(ebitda, 'var(--amber)', 1.8);
+  drawLine(pat, 'var(--green)', 1.8);
+})();
+
+// ---- Cash chart: area ----
+(function(){
+  const svg = document.getElementById('cashChart');
+  const W=1080, H=260, padL=54, padR=20, padT=20, padB=32;
+  const plotW = W-padL-padR, plotH = H-padT-padB;
+  const n = years.length;
+  const maxY = 220000;
+
+  [0,50000,100000,150000,200000].forEach(v=>{
+    const y = padT + plotH - (v/maxY)*plotH;
+    svg.appendChild(el('line',{x1:padL,x2:W-padR,y1:y,y2:y,class:'gridline'}));
+    const t = el('text',{x:padL-8,y:y+3,class:'axis-label','text-anchor':'end'});
+    t.textContent = fmt(v);
+    svg.appendChild(t);
+  });
+
+  let top='', bottom='';
+  years.forEach((yr,i)=>{
+    const cx = padL + (plotW/n)*(i+0.5);
+    const cy = padT + plotH - (cash[i]/maxY)*plotH;
+    top += (i===0?'M':'L') + cx + ' ' + cy + ' ';
+  });
+  const lastX = padL + (plotW/n)*(n-0.5);
+  const firstX = padL + (plotW/n)*(0.5);
+  const areaD = top + `L ${lastX} ${padT+plotH} L ${firstX} ${padT+plotH} Z`;
+
+  const grad = el('linearGradient',{id:'cashGrad', x1:0,y1:0,x2:0,y2:1});
+  grad.appendChild(el('stop',{offset:'0%','stop-color':'var(--cyan)','stop-opacity':0.28}));
+  grad.appendChild(el('stop',{offset:'100%','stop-color':'var(--cyan)','stop-opacity':0}));
+  const defs = el('defs',{}); defs.appendChild(grad); svg.appendChild(defs);
+
+  svg.appendChild(el('path',{d:areaD, fill:'url(#cashGrad)'}));
+  svg.appendChild(el('path',{d:top, fill:'none', stroke:'var(--cyan)', 'stroke-width':2}));
+
+  years.forEach((yr,i)=>{
+    const cx = padL + (plotW/n)*(i+0.5);
+    const lab = el('text',{x:cx,y:H-8,class:'axis-label','text-anchor':'middle'});
+    lab.textContent = yr;
+    svg.appendChild(lab);
+  });
+})();
+
+// ---- Data table ----
+(function(){
+  const tbody = document.querySelector('#dataTable tbody');
+  years.forEach((yr,i)=>{
+    const tr = document.createElement('tr');
+    const cells = [
+      yr,
+      neo[i],
+      ceo[i],
+      total[i],
+      revenue[i].toLocaleString('en-IN', {maximumFractionDigits:0}),
+      ebitda[i].toLocaleString('en-IN', {maximumFractionDigits:0}),
+      pat[i].toLocaleString('en-IN', {maximumFractionDigits:0}),
+      cash[i].toLocaleString('en-IN', {maximumFractionDigits:0}),
+    ];
+    cells.forEach((c,ci)=>{
+      const td = document.createElement('td');
+      td.textContent = c;
+      if(ci>=5 && ci<=6){
+        const raw = ci===5? ebitda[i] : pat[i];
+        td.className = raw<0 ? 'neg' : 'pos';
+      }
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+})();
+
+// ---- fade-in on scroll ----
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
+},{threshold:0.12});
+document.querySelectorAll('.fadein').forEach(elm=>io.observe(elm));
+</script>
+</body>
+</html>
